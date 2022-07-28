@@ -50,6 +50,8 @@ def game(board, player_names, rolls, go_income)
       player.current_position = new_position
 
       current_space = spaces[player.current_position]
+
+      player.buy_property(current_space) if current_space.owner == 'Unowned'
     end
 
     index += 1

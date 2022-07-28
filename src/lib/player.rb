@@ -17,4 +17,12 @@ class Player
 
     @current_position + roll
   end
+
+  def buy_property(property)
+    return unless @wallet > property.price
+
+    @wallet -= property.price
+    property.owner = self
+    @properties << property
+  end
 end
