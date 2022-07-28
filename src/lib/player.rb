@@ -25,4 +25,18 @@ class Player
     property.owner = self
     @properties << property
   end
+
+  def pay_rent(property)
+    prop_owner = property.owner
+    rent = property.price
+
+    if @wallet < rent
+      prop_owner.wallet += @wallet
+      @wallet = 0
+      @status = 'bankrupt'
+    else
+      prop_owner.wallet += rent
+      @wallet -= rent
+    end
+  end
 end
