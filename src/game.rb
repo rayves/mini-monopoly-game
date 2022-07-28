@@ -1,5 +1,9 @@
 require 'json'
 
+require_relative 'lib/player'
+require_relative 'lib/space'
+require_relative 'lib/helper_methods'
+
 # Import external data and convert them into usable data for the game
 BOARD = read_json('data/board.json')
 ROLLS_ONE = read_json('data/rolls_1.json')
@@ -9,3 +13,4 @@ ROLLS_TWO = read_json('data/rolls_2.json')
 PLAYER_NAMES = %w[Peter Billy Charlotte Sweedal].freeze
 
 GO_INCOME = 1
+
