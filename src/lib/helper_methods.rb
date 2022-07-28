@@ -39,6 +39,7 @@ def game(board, player_names, rolls, go_income)
   player_rolls = connect_rolls_to_players(players, rolls)
 
   index = 0
+  # endgame = trigger to stop while loop
   endgame = player_rolls.count
   while index < endgame
     roll = player_rolls[index]

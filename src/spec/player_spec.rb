@@ -84,6 +84,26 @@ describe 'Player' do
     end
   end
 
+  describe '.check_set' do
+    it 'should return 1 if player does not have a colour set of properties' do
+      expect(@player.check_set(@property.colour)).to be(1)
+    end
+
+    it 'should return 2 if player does have a colour set of properties' do
+      @player.properties << @spaces[1]
+      @player.properties << @spaces[2]
+      expect(@player.check_set(@property.colour)).to be(2)
+    end
+
+    it 'should return 2 if player has 2 colour sets of properties' do
+      @player.properties << @spaces[1]
+      @player.properties << @spaces[2]
+      @player.properties << @spaces[3]
+      @player.properties << @spaces[4]
+      expect(@player.check_set(@property.colour)).to be(2)
+    end
+  end
+
   describe '.bankruptcy_check' do
     it "should return 'bankrupt' if the player's wallet is less than rent" do
       @player.wallet = 3
