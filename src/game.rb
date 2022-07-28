@@ -13,3 +13,6 @@ ROLLS_TWO = read_json('data/rolls_2.json')
 PLAYER_NAMES = %w[Peter Billy Charlotte Sweedal].freeze
 
 GO_INCOME = 1
+
+GAME_ONE = game(BOARD, PLAYER_NAMES, ROLLS_ONE, GO_INCOME)
+GAME_TWO = game(BOARD, PLAYER_NAMES, ROLLS_TWO, GO_INCOME)

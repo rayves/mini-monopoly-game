@@ -27,3 +27,16 @@ def connect_rolls_to_players(players, rolls)
   end
   player_rolls
 end
+
+def game(board, player_names, rolls, go_income)
+  # Generate player objects using the player names in the PLAYE_NAMES array
+  players = generate_players(player_names)
+
+  # Generate the board using the imported data
+  spaces = generate_spaces(board)
+
+  # Create relationship between the player objects and the rolls based on the predetermined player roll order.
+  player_rolls = connect_rolls_to_players(players, rolls)
+
+  { players: players, spaces: spaces }
+end
