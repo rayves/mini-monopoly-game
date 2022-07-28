@@ -62,6 +62,7 @@ def game(board, player_names, rolls, go_income)
           puts 'GAME OVER'
           index = endgame
         end
+
       end
     end
 
@@ -69,4 +70,16 @@ def game(board, player_names, rolls, go_income)
   end
 
   { players: players, spaces: spaces }
+end
+
+def check_winner(players)
+  most_money = 0
+  winner = nil
+  players.each do |player|
+    if player.wallet > most_money
+      most_money = player.wallet
+      winner = player
+    end
+  end
+  winner
 end
