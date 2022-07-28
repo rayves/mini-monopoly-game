@@ -38,5 +38,22 @@ def game(board, player_names, rolls, go_income)
   # Create relationship between the player objects and the rolls based on the predetermined player roll order.
   player_rolls = connect_rolls_to_players(players, rolls)
 
+  index = 0
+  endgame = player_rolls.count
+  while index < endgame
+    roll = player_rolls[index]
+    roll.each do |player, num|
+      new_position = player.new_position(num, spaces)
+
+      player.wallet += go_income if new_position < player.current_position
+
+      player.current_position = new_position
+
+      current_space = spaces[player.current_position]
+    end
+
+    index += 1
+  end
+
   { players: players, spaces: spaces }
 end
