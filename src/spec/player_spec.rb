@@ -4,6 +4,7 @@ require_relative '../lib/player'
 describe 'Player' do
   before(:each) do
     @player = Player.new('Ray')
+    @player_two = Player.new('Rick')
     @spaces = []
     @spaces << Space.new('GO', nil, nil, 'go', 'Cannot be purchased')
     @spaces << Space.new('The Burvale', 1, 'Brown', 'property', 'unowned')
@@ -14,6 +15,14 @@ describe 'Player' do
     @spaces << Space.new('YOMG', 3, 'Green', 'property', 'unowned')
 
     @property = @spaces[1]
+
+    # set player_two to own 2 of the green properties
+    @spaces[3].owner = @player_two
+    @player_two.properties << @spaces[3]
+    @spaces[5].owner = @player_two
+    @player_two.properties << @spaces[5]
+    @spaces[6].owner = @player_two
+    @player_two.properties << @spaces[6]
   end
 
   it 'should be an instance of Player' do
@@ -112,6 +121,60 @@ describe 'Player' do
 
     it "should return false if player's wallet is greater than rent" do
       expect(@player.bankruptcy_check(5)).to eq(false)
+    end
+  end
+
+  describe '.pay_rent' do
+    it "should update player status to 'bankrupt' if the player's wallet is less than rent" do
+      @player.wallet = 3
+      @player.pay_rent(@spaces[5])
+      expect(@player.status).to eq('bankrupt')
+    end
+
+    it "should update player wallet to equal 0 if the player's wallet is less than rent" do
+      @player.wallet = 3
+      @player.pay_rent(@spaces[5])
+      expect(@player.wallet).to eq(0)
+    end
+
+    it "should increase the property owner's wallet by the balance of the wallet of the player required to pay rent if the player's wallet is less than rent" do
+      player_two_pre_rent_wallet = @player_two.wallet
+      @player.wallet = 3
+      player_pre_rent_wallet = @player.wallet
+      @player.pay_rent(@spaces[5])
+      expect(@player_two.wallet).to eq(player_two_pre_rent_wallet + player_pre_rent_wallet)
+    end
+
+    it "should decrease the player's wallet by the amount of rent multiplied by 1 if property owner does not own the colour set of properties" do
+      player_pre_rent_wallet = @player.wallet
+      test_prop = @spaces[3]
+      @player.pay_rent(test_prop)
+      expect(@player.wallet).to eq(player_pre_rent_wallet - test_prop.price)
+      expect(@player.wallet).to eq(16 - 2)
+    end
+
+    it "should increase the property owner's wallet by the amount of rent multiplied by 1 if propery owner does not own the colour set of properties" do
+      player_two_pre_rent_wallet = @player_two.wallet
+      test_prop = @spaces[3]
+      @player.pay_rent(test_prop)
+      expect(@player_two.wallet).to eq(player_two_pre_rent_wallet + test_prop.price)
+      expect(@player_two.wallet).to eq(16 + 2)
+    end
+
+    it 'should decrease the players wallet by 2x the property rent if the property owner owns the colour set of properties' do
+      player_pre_rent_wallet = @player.wallet
+      test_prop = @spaces[5]
+      @player.pay_rent(test_prop)
+      expect(@player.wallet).to eq(player_pre_rent_wallet - test_prop.price * 2)
+      expect(@player.wallet).to eq(16 - 6)
+    end
+
+    it "should increase the property owner's wallet by 2x the property rent if the property owner owns the colour set of properties" do
+      player_two_pre_rent_wallet = @player_two.wallet
+      test_prop = @spaces[5]
+      @player.pay_rent(test_prop)
+      expect(@player_two.wallet).to eq(player_two_pre_rent_wallet + test_prop.price * 2)
+      expect(@player_two.wallet).to eq(16 + 6)
     end
   end
 end
