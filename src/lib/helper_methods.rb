@@ -57,6 +57,11 @@ def game(board, player_names, rolls, go_income)
         player.buy_property(current_space)
       else
         player.pay_rent(current_space)
+        if player.status == 'bankrupt'
+          puts "#{player.name} is bankrupt"
+          puts 'GAME OVER'
+          index = endgame
+        end
       end
     end
 
