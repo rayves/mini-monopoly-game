@@ -26,6 +26,14 @@ class Player
     @properties << property
   end
 
+  def check_set(colour)
+    colour_set = 0
+    @properties.each do |prop|
+      colour_set += 1 if prop.colour == colour
+    end
+    colour_set > 1 ? 2 : 1
+  end
+
   def bankruptcy_check(rent)
     return false unless @wallet < rent
 
@@ -34,7 +42,7 @@ class Player
 
   def pay_rent(property)
     prop_owner = property.owner
-    rent = property.price
+    rent = property.price * prop_owner.check_set(property.colour)
 
     if bankruptcy_check(rent)
       prop_owner.wallet += @wallet
