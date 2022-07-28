@@ -13,4 +13,3 @@ ROLLS_TWO = read_json('data/rolls_2.json')
 PLAYER_NAMES = %w[Peter Billy Charlotte Sweedal].freeze
 
 GO_INCOME = 1
-

@@ -4,9 +4,9 @@ require_relative '../lib/player'
 describe 'connect_rolls_to_players' do
   before(:each) do
     player_names = %w[Peter Billy Charlotte]
-    rolls = [4, 6, 1, 2, 4, 1]
+    @rolls = [4, 6, 1, 2, 4, 1]
     @players = generate_players(player_names)
-    @player_rolls = connect_rolls_to_players(@players, rolls)
+    @player_rolls = connect_rolls_to_players(@players, @rolls)
   end
 
   it 'should return an array of hashes' do
@@ -23,5 +23,11 @@ describe 'connect_rolls_to_players' do
     expect(@player_rolls[3].keys[0]).to eq(@players[0])
     expect(@player_rolls[4].keys[0]).to eq(@players[1])
     expect(@player_rolls[5].keys[0]).to eq(@players[2])
+    expect(@player_rolls[0].values[0]).to eq(@rolls[0])
+    expect(@player_rolls[1].values[0]).to eq(@rolls[1])
+    expect(@player_rolls[2].values[0]).to eq(@rolls[2])
+    expect(@player_rolls[3].values[0]).to eq(@rolls[3])
+    expect(@player_rolls[4].values[0]).to eq(@rolls[4])
+    expect(@player_rolls[5].values[0]).to eq(@rolls[5])
   end
 end
