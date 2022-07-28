@@ -31,3 +31,24 @@ describe 'connect_rolls_to_players' do
     expect(@player_rolls[5].values[0]).to eq(@rolls[5])
   end
 end
+
+describe 'check_winner' do
+  before(:each) do
+    @player_names = %w[Peter Billy Charlotte Sweedal].freeze
+    @players = generate_players(@player_names)
+    @peter = @players[0]
+    @billy = @players[1]
+    @charlotte = @players[2]
+    @sweedal = @players[3]
+    @peter.wallet = 24
+    @billy.wallet = 10
+    @charlotte.wallet = 14
+    @sweedal.wallet = 0
+  end
+
+  it 'should return the player with the most money' do
+    expect(check_winner(@players)).to eq(@peter)
+    @billy.wallet = 50
+    expect(check_winner(@players)).to eq(@billy)
+  end
+end
