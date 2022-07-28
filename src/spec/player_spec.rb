@@ -12,6 +12,8 @@ describe 'Player' do
     @spaces << Space.new('Lanzhou Beef Noodle', 2, 'Red', 'property', 'unowned')
     @spaces << Space.new("Betty's Burgers", 3, 'Green', 'property', 'unowned')
     @spaces << Space.new('YOMG', 3, 'Green', 'property', 'unowned')
+
+    @property = @spaces[1]
   end
 
   it 'should be an instance of Player' do
@@ -54,6 +56,31 @@ describe 'Player' do
       @player.current_position = 5
       roll = 6
       expect(@player.new_position(roll, @spaces)).to be(4)
+    end
+  end
+
+  describe '.buy_property' do
+    it 'should return nil if the player cannot afford the property' do
+      @player.wallet = 0
+      expect(@player.buy_property(@property)).to be(nil)
+    end
+
+    it 'should add the property to the players properties list' do
+      pre_purchase_properties = @player.properties.count
+      @player.buy_property(@property)
+      expect(@player.properties[-1]).to eq(@property)
+      expect(@player.properties.count).to be(pre_purchase_properties + 1)
+    end
+
+    it "should update the property's owner attribute to be the player" do
+      @player.buy_property(@property)
+      expect(@property.owner).to eq(@player)
+    end
+
+    it "should decrease the player's wallet by the cost of the property" do
+      pre_buy_wallet = @player.wallet
+      @player.buy_property(@property)
+      expect(@player.wallet).to be(pre_buy_wallet - @property.price)
     end
   end
 end
