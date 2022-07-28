@@ -15,3 +15,14 @@ def generate_spaces(board)
     end
   end
 end
+
+def connect_rolls_to_players(players, rolls)
+  player_rolls = []
+  i = 0
+  rolls.each do |roll|
+    player_rolls << { players[i] => roll }
+    i += 1
+    i = 0 if i > 3
+  end
+  player_rolls
+end
