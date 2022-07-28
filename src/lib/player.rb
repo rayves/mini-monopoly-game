@@ -10,10 +10,13 @@ class Player
     @status = 'playing'
   end
 
-  def new_position(roll, spaces)
+  def new_position(roll, spaces, go_income)
     total_spaces = spaces.count
     final_space = total_spaces - 1
-    return @current_position + roll - total_spaces if @current_position + roll > final_space
+    if @current_position + roll > final_space
+      @wallet += go_income
+      return @current_position + roll - total_spaces
+    end
 
     @current_position + roll
   end

@@ -44,14 +44,10 @@ def game(board, player_names, rolls, go_income)
   while index < endgame
     roll = player_rolls[index]
     roll.each do |player, num|
-      new_position = player.new_position(num, spaces)
-
-      player.wallet += go_income if new_position < player.current_position
-
-      player.current_position = new_position
+      player.current_position = player.new_position(num, spaces, go_income)
 
       current_space = spaces[player.current_position]
-      
+
       next if current_space.type == 'go' || player == current_space.owner
 
       if current_space.owner == 'Unowned'

@@ -3,6 +3,7 @@ require_relative '../lib/player'
 
 describe 'Player' do
   before(:each) do
+    @go_income = 1
     @player = Player.new('Ray')
     @player_two = Player.new('Rick')
     @spaces = []
@@ -48,23 +49,40 @@ describe 'Player' do
   describe '.new_position' do
     it 'should return an integer' do
       roll = 5
-      expect(@player.new_position(roll, @spaces)).to be_an_instance_of(Integer)
+      expect(@player.new_position(roll, @spaces, @go_income)).to be_an_instance_of(Integer)
     end
 
     it 'should return an integer that is greater than the players current position but less than the total number of spaces in 1 loop' do
       roll_one = 3
-      expect(@player.new_position(roll_one, @spaces)).to be(3)
-      @player.current_position = @player.new_position(roll_one, @spaces)
+      expect(@player.new_position(roll_one, @spaces, @go_income)).to be(3)
+      @player.current_position = @player.new_position(roll_one, @spaces, @go_income)
 
       roll_two = 2
-      expect(@player.new_position(roll_two, @spaces)).to be(5)
-      @player.current_position = @player.new_position(roll_two, @spaces)
+      expect(@player.new_position(roll_two, @spaces, @go_income)).to be(5)
+      @player.current_position = @player.new_position(roll_two, @spaces, @go_income)
     end
 
     it 'should return an integer that is less than the players current position if the roll sumed with the current position is greater than the total number of spaces' do
       @player.current_position = 5
       roll = 6
-      expect(@player.new_position(roll, @spaces)).to be(4)
+      expect(@player.new_position(roll, @spaces, @go_income)).to be(4)
+    end
+
+    it "should increase the player's wallet by the go income amount if the player passes go (wraps around the board)" do
+      start_wallet_balance = @player.wallet
+      @player.current_position = 5
+      roll = 6
+      @player.new_position(roll, @spaces, @go_income)
+      expect(@player.wallet).to eq(start_wallet_balance + @go_income)
+      expect(@player.wallet).to eq(16 + 1)
+    end
+
+    it "should not increase the player's wallet if they do not go passed go (wrap around the board)" do
+      start_wallet_balance = @player.wallet
+      roll = 5
+      @player.new_position(roll, @spaces, @go_income)
+      expect(@player.wallet).to eq(start_wallet_balance)
+      expect(@player.wallet).to eq(16)
     end
   end
 
