@@ -83,4 +83,15 @@ describe 'Player' do
       expect(@player.wallet).to be(pre_buy_wallet - @property.price)
     end
   end
+
+  describe '.bankruptcy_check' do
+    it "should return 'bankrupt' if the player's wallet is less than rent" do
+      @player.wallet = 3
+      expect(@player.bankruptcy_check(5)).to eq('bankrupt')
+    end
+
+    it "should return false if player's wallet is greater than rent" do
+      expect(@player.bankruptcy_check(5)).to eq(false)
+    end
+  end
 end

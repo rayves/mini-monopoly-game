@@ -26,14 +26,19 @@ class Player
     @properties << property
   end
 
+  def bankruptcy_check(rent)
+    return false unless @wallet < rent
+
+    @status = 'bankrupt'
+  end
+
   def pay_rent(property)
     prop_owner = property.owner
     rent = property.price
 
-    if @wallet < rent
+    if bankruptcy_check(rent)
       prop_owner.wallet += @wallet
       @wallet = 0
-      @status = 'bankrupt'
     else
       prop_owner.wallet += rent
       @wallet -= rent
