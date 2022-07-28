@@ -15,4 +15,7 @@ PLAYER_NAMES = %w[Peter Billy Charlotte Sweedal].freeze
 GO_INCOME = 1
 
 GAME_ONE = game(BOARD, PLAYER_NAMES, ROLLS_ONE, GO_INCOME)
+game_results(GAME_ONE)
+puts
 GAME_TWO = game(BOARD, PLAYER_NAMES, ROLLS_TWO, GO_INCOME)
+game_results(GAME_TWO)

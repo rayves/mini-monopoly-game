@@ -51,6 +51,7 @@ def game(board, player_names, rolls, go_income)
       player.current_position = new_position
 
       current_space = spaces[player.current_position]
+      
       next if current_space.type == 'go' || player == current_space.owner
 
       if current_space.owner == 'Unowned'
@@ -82,4 +83,22 @@ def check_winner(players)
     end
   end
   winner
+end
+
+def player_result(player, spaces)
+  "#{player.name} finished on #{spaces[player.current_position].name} with $#{player.wallet}"
+end
+
+def announce_winner(player)
+  "#{player.name} is the winner!"
+end
+
+def game_results(game)
+  players = game[:players]
+  spaces = game[:spaces]
+  winner = check_winner(players)
+  players.each do |player|
+    puts player_result(player, spaces)
+  end
+  puts announce_winner(winner)
 end
