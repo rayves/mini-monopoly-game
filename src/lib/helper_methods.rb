@@ -66,7 +66,7 @@ def game(board, player_names, rolls, go_income)
     index += 1
   end
 
-  { players: players, spaces: spaces }
+  game_results(players, spaces)
 end
 
 def check_winner(players)
@@ -89,9 +89,7 @@ def announce_winner(player)
   "#{player.name} is the winner!"
 end
 
-def game_results(game)
-  players = game[:players]
-  spaces = game[:spaces]
+def game_results(players, spaces)
   winner = check_winner(players)
   players.each do |player|
     puts player_result(player, spaces)
